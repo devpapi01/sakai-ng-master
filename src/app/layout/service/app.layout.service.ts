@@ -54,19 +54,10 @@ export class LayoutService {
     constructor() {
         effect(() => {
             const config = this.config();
-            if (this.updateStyle(config)) {
-                this.changeTheme();
-            }
+
             this.changeScale(config.scale);
             this.onConfigUpdate();
         });
-    }
-
-    updateStyle(config: AppConfig) {
-        return (
-            config.theme !== this._config.theme ||
-            config.colorScheme !== this._config.colorScheme
-        );
     }
 
     onMenuToggle() {
@@ -118,23 +109,6 @@ export class LayoutService {
         this.configUpdate.next(this.config());
     }
 
-    changeTheme() {
-        const config = this.config();
-        const themeLink = <HTMLLinkElement>document.getElementById('theme-css');
-        const themeLinkHref = themeLink.getAttribute('href')!;
-        const newHref = themeLinkHref
-            .split('/')
-            .map((el) =>
-                el == this._config.theme
-                    ? (el = config.theme)
-                    : el == `theme-${this._config.colorScheme}`
-                    ? (el = `theme-${config.colorScheme}`)
-                    : el
-            )
-            .join('/');
-
-        this.replaceThemeLink(newHref);
-    }
     replaceThemeLink(href: string) {
         const id = 'theme-css';
         let themeLink = <HTMLLinkElement>document.getElementById(id);

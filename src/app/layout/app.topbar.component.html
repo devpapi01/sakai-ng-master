@@ -1,29 +1,47 @@
-<div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>SAKAI</span>
-    </a>
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div class="layout-topbar">
+            <a class="layout-topbar-logo" routerLink="">
+                <strong
+                    class="fadeinright animation-duration-2000 animation-iteration-1 flex align-items-center justify-content-center font-bold px-3 py-3"
+                    >BabanKassouwa</strong
+                >
+                <img
+                    class="ml-2"
+                    src="https://cdn.cssauthor.com/wp-content/uploads/2023/02/Ecommerce-Icons.jpg?strip=all&lossy=1&ssl=1"
+                />
+            </a>
 
-    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
-        <i class="pi pi-bars"></i>
-    </button>
+            <button
+                #menubutton
+                class="p-link layout-menu-button layout-topbar-button"
+                (click)="layoutService.onMenuToggle()"
+            >
+                <i class="pi pi-bars"></i>
+            </button>
 
-    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
-        <i class="pi pi-ellipsis-v"></i>
-    </button>
+            <button
+                #topbarmenubutton
+                class="p-link layout-topbar-menu-button layout-topbar-button"
+                (click)="layoutService.showProfileSidebar()"
+            >
+                <i class="pi pi-ellipsis-v"></i>
+            </button>
 
-    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button>
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
-        </button>
-        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button>
-    </div>
-</div>
+            <div
+                #topbarmenu
+                class="layout-topbar-menu"
+                [ngClass]="{
+                    'layout-topbar-menu-mobile-active':
+                        layoutService.state.profileSidebarVisible
+                }"
+            >
+                <button class="p-link layout-topbar-button">
+                    <i class="pi pi-user"></i>
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </body>
+</html>
