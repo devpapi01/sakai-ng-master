@@ -6,11 +6,10 @@ import { RouterOutlet } from '@angular/router';
     selector: 'app-root',
     templateUrl: './app.component.html',
     standalone: true,
-    imports: [RouterOutlet]
+    imports: [RouterOutlet],
 })
 export class AppComponent implements OnInit {
-
-    constructor(private primengConfig: PrimeNGConfig) { }
+    constructor(private primengConfig: PrimeNGConfig) {}
 
     ngOnInit() {
         this.primengConfig.ripple = true;

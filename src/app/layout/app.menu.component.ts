@@ -2,6 +2,9 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 import { AppMenuitemComponent } from './app.menuitem.component';
+import { ProduitService } from '../produitservice.service';
+import { Categorie } from '../model/categorie.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-menu',
@@ -11,82 +14,97 @@ import { AppMenuitemComponent } from './app.menuitem.component';
 })
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
-
-    constructor(public layoutService: LayoutService) {}
+    categories: Categorie[];
+    nomCat: string[] = [];
+    constructor(
+        public layoutService: LayoutService,
+        private produitSer: ProduitService
+    ) {}
 
     ngOnInit() {
         this.model = [
-            {
-                label: 'Acceuil',
-                items: [
-                    {
-                        label: 'Les produits',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/'],
-                    },
-                ],
-            },
-
             {
                 label: 'Pages',
                 icon: 'pi pi-fw pi-briefcase',
                 items: [
                     {
-                        label: 'Les catégories',
-                        icon: 'pi pi-fw pi-user',
+                        label: 'Les produits',
+                        icon: 'pi pi-shop',
+                        routerLink: ['/listprod'],
+                    },
+                    {
+                        label: 'Les catégories et sous categories',
+                        icon: 'pi pi-sitemap',
                         items: [
                             {
-                                label: 'Login',
-                                icon: 'pi pi-fw pi-sign-in',
-                                routerLink: ['/auth/login'],
+                                label: 'les catégories',
+
+                                routerLink: ['/listcat'],
                             },
                             {
-                                label: 'Error',
-                                icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/auth/error'],
-                            },
-                            {
-                                label: 'Access Denied',
-                                icon: 'pi pi-fw pi-lock',
-                                routerLink: ['/auth/access'],
+                                label: 'Les sous catégories',
+
+                                routerLink: ['/pages/crud'],
                             },
                         ],
                     },
                     {
-                        label: 'Crud',
-                        icon: 'pi pi-fw pi-pencil',
-                        routerLink: ['/pages/crud'],
+                        label: 'Les fournisseurs',
+                        icon: 'pi pi-users',
+                        routerLink: ['/listfournisseur'],
+                    },
+                    {
+                        label: 'les services de livraisons',
+                        icon: 'pi pi-truck',
+                        routerLink: ['/listservicelovraison'],
                     },
 
                     {
-                        label: 'Not Found',
-                        icon: 'pi pi-fw pi-exclamation-circle',
-                        routerLink: ['/notfound'],
-                    },
-                    {
-                        label: 'Empty',
-                        icon: 'pi pi-fw pi-circle-off',
-                        routerLink: ['/pages/empty'],
+                        label: 'Pour vous',
+                        icon: 'pi pi-fw pi-user',
+                        items: [
+                            {
+                                label: 'Votre panier',
+                                icon: 'pi pi-shopping-cart',
+                            },
+                            {
+                                label: 'Vos commandes',
+                                icon: 'pi pi-box',
+                            },
+                            {
+                                label: 'Profil',
+                                icon: 'pi pi-fw pi-user',
+                            },
+                        ],
                     },
                 ],
             },
 
             {
-                label: 'Get Started',
+                label: 'Aide BabanKassouwa',
                 items: [
                     {
-                        label: 'Documentation',
+                        label: 'Qui sommes nous',
                         icon: 'pi pi-fw pi-question',
-                        routerLink: ['/documentation'],
+                        routerLink: ['/infos'],
                     },
                     {
-                        label: 'View Source',
-                        icon: 'pi pi-fw pi-search',
-                        url: ['https://github.com/primefaces/sakai-ng'],
-                        target: '_blank',
+                        label: 'Nos contacts',
+                        icon: 'pi pi-phone',
+                        routerLink: ['/h'],
                     },
                 ],
             },
         ];
+        this.chargerCategorie();
+    }
+
+    chargerCategorie() {
+        this.produitSer.listerCategories().subscribe((categories) => {
+            (this.categories = categories._embedded.categories),
+                categories._embedded.categories.forEach((categorie) =>
+                    this.nomCat.push(categorie.nomCat)
+                );
+        });
     }
 }

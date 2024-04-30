@@ -1,47 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-    <body>
-        <div class="layout-topbar">
-            <a class="layout-topbar-logo" routerLink="">
-                <strong
-                    class="fadeinright animation-duration-2000 animation-iteration-1 flex align-items-center justify-content-center font-bold px-3 py-3"
-                    >BabanKassouwa</strong
-                >
-                <img
-                    class="ml-2"
-                    src="https://cdn.cssauthor.com/wp-content/uploads/2023/02/Ecommerce-Icons.jpg?strip=all&lossy=1&ssl=1"
-                />
-            </a>
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img class="ml-2" src="../../assets/final.png" />
+        <strong
+            class="fadeinright animation-duration-2000 animation-iteration-1 flex align-items-center justify-content-center font-bold px-3 py-3"
+            >BabanKassouwa</strong
+        >
+    </a>
 
-            <button
-                #menubutton
-                class="p-link layout-menu-button layout-topbar-button"
-                (click)="layoutService.onMenuToggle()"
-            >
-                <i class="pi pi-bars"></i>
-            </button>
+    <button
+        #menubutton
+        class="p-link layout-menu-button layout-topbar-button"
+        (click)="layoutService.onMenuToggle()"
+    >
+        <i class="pi pi-bars"></i>
+    </button>
 
-            <button
-                #topbarmenubutton
-                class="p-link layout-topbar-menu-button layout-topbar-button"
-                (click)="layoutService.showProfileSidebar()"
-            >
-                <i class="pi pi-ellipsis-v"></i>
-            </button>
+    <button
+        #topbarmenubutton
+        class="p-link layout-topbar-menu-button layout-topbar-button"
+        (click)="layoutService.showProfileSidebar()"
+    >
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
 
-            <div
-                #topbarmenu
-                class="layout-topbar-menu"
-                [ngClass]="{
-                    'layout-topbar-menu-mobile-active':
-                        layoutService.state.profileSidebarVisible
-                }"
-            >
-                <button class="p-link layout-topbar-button">
-                    <i class="pi pi-user"></i>
-                    <span>Profile</span>
-                </button>
-            </div>
-        </div>
-    </body>
-</html>
+    <div
+        #topbarmenu
+        class="layout-topbar-menu"
+        [ngClass]="{
+            'layout-topbar-menu-mobile-active':
+                layoutService.state.profileSidebarVisible
+        }"
+    >
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-fw pi-sign-out"></i>
+            <span>
+                <a href="#" (click)="(layoutService)">Quit</a>
+            </span>
+        </button>
+    </div>
+</div>

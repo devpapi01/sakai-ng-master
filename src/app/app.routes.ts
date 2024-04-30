@@ -9,5 +9,6 @@ export const Layoutroutes: Routes = [
             import('./layout/app.layout.component').then(
                 (module) => module.AppLayoutComponent
             ),
+        loadChildren: () => import('./Prods/produits.routes'),
     },
 ];

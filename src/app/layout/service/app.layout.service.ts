@@ -109,24 +109,6 @@ export class LayoutService {
         this.configUpdate.next(this.config());
     }
 
-    replaceThemeLink(href: string) {
-        const id = 'theme-css';
-        let themeLink = <HTMLLinkElement>document.getElementById(id);
-        const cloneLinkElement = <HTMLLinkElement>themeLink.cloneNode(true);
-
-        cloneLinkElement.setAttribute('href', href);
-        cloneLinkElement.setAttribute('id', id + '-clone');
-
-        themeLink.parentNode!.insertBefore(
-            cloneLinkElement,
-            themeLink.nextSibling
-        );
-        cloneLinkElement.addEventListener('load', () => {
-            themeLink.remove();
-            cloneLinkElement.setAttribute('id', id);
-        });
-    }
-
     changeScale(value: number) {
         document.documentElement.style.fontSize = `${value}px`;
     }

@@ -1,0 +1,89 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-dataView layout="grid">
+                <ng-template pTemplate="header">
+                    <div
+                        class="flex flex-column md:flex-row md:justify-content-between gap-2"
+                    >
+                        <p-dropdown
+                            [options]="sortOptions"
+                            placeholder="trier par prix"
+                            (onChange)="onSortChange($event)"
+                        ></p-dropdown>
+
+                        <p-button
+                            (click)="showDialog()"
+                            icon="pi pi-filter"
+                            label="filtre"
+                            class="mr-auto"
+                        ></p-button>
+                        <p-dialog
+                            [draggable]="false"
+                            [(visible)]="visible"
+                            [breakpoints]="{ '960px': '75vw' }"
+                            [style]="{ width: '50vw' }"
+                            [position]="center"
+                        >
+                            <div class="flex py-2 justify-content-center">
+                                <p>
+                                    Lorem ipsum dolor sit amet consectetur,
+                                    adipisicing elit. Perferendis molestiae
+                                    saepe, porro ipsum libero in minima nemo
+                                    iste sunt quibusdam soluta natus voluptate
+                                    sint, asperiores inventore dolorem officia
+                                    eaque. Similique.
+                                </p>
+                            </div>
+                        </p-dialog>
+
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input
+                                type="search"
+                                pInputText
+                                placeholder="recherche par nom"
+                                (input)="onFilter(dv, $event)"
+                            />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template let-products pTemplate="gridItem">
+                    <div class="grid grid-nogutter">
+                        @for (product of produits; track $index) {
+                        <div class="col-12 md:col-4">
+                            <div class="card m-3 border-1 surface-border">
+                                <div
+                                    class="flex flex-wrap gap-2 align-items-center justify-content-between mb-2"
+                                >
+                                    <div class="flex align-items-center">
+                                        <i class="pi pi-tag mr-2"></i>
+                                        <span class="font-semibold">{{
+                                            product.nomProduit
+                                        }}</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex flex-column align-items-center text-center mb-3"
+                                >
+                                    <div class="text-2xl font-bold">
+                                        {{ product.nomProduit }}
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex align-items-center justify-content-between"
+                                >
+                                    <span class="text-2xl font-semibold"
+                                        >${{ product.prixProduit }}</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        }
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+</div>
