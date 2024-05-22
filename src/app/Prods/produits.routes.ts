@@ -9,10 +9,25 @@ export default [
             ),
     },
     {
-        path: 'infos',
+        path: 'updateprod/:id',
         loadComponent: () =>
-            import('../helper/infos/infos.component').then(
-                (module) => module.InfosComponent
+            import('./updateprod/updateprod.component').then(
+                (module) => module.UpdateprodComponent
+            ),
+    },
+    {
+        path: 'addprod',
+        loadComponent: () =>
+            import('./addproduit/addproduit.component').then(
+                (module) => module.AddproduitComponent
+            ),
+    },
+
+    {
+        path: 'detailprod/:id',
+        loadComponent: () =>
+            import('./detailprod/detailprod.component').then(
+                (module) => module.DetailprodComponent
             ),
     },
 ] as Routes;

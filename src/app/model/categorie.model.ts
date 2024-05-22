@@ -1,4 +1,8 @@
+import { Souscategorie } from './souscategorie.model';
+
 export class Categorie {
-  idCat!: number;
-  nomCat!: string;
+    id!: number;
+    nom!: string;
+    description!: string;
+    sousCategorie!: Souscategorie[];
 }

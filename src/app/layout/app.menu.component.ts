@@ -2,7 +2,7 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 import { AppMenuitemComponent } from './app.menuitem.component';
-import { ProduitService } from '../produitservice.service';
+import { ProduitService } from '../services/produitservice.service';
 import { Categorie } from '../model/categorie.model';
 import { RouterLink } from '@angular/router';
 
@@ -35,28 +35,22 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Les catégories et sous categories',
                         icon: 'pi pi-sitemap',
-                        items: [
-                            {
-                                label: 'les catégories',
-
-                                routerLink: ['/listcat'],
-                            },
-                            {
-                                label: 'Les sous catégories',
-
-                                routerLink: ['/pages/crud'],
-                            },
-                        ],
+                        routerLink: ['/listcats'],
                     },
                     {
                         label: 'Les fournisseurs',
                         icon: 'pi pi-users',
-                        routerLink: ['/listfournisseur'],
+                        routerLink: ['/listefournisseurs'],
                     },
                     {
                         label: 'les services de livraisons',
                         icon: 'pi pi-truck',
-                        routerLink: ['/listservicelovraison'],
+                        routerLink: ['/listsl'],
+                    },
+                    {
+                        label: 'les marchands',
+                        icon: 'pi pi-truck',
+                        routerLink: ['/listemarchand'],
                     },
 
                     {
@@ -66,14 +60,18 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Votre panier',
                                 icon: 'pi pi-shopping-cart',
+                                routerLink: ['/panier'],
                             },
                             {
                                 label: 'Vos commandes',
                                 icon: 'pi pi-box',
+
+                                routerLink: ['/listecommandes'],
                             },
                             {
                                 label: 'Profil',
                                 icon: 'pi pi-fw pi-user',
+                                routerLink: ['/profil'],
                             },
                         ],
                     },
@@ -100,11 +98,12 @@ export class AppMenuComponent implements OnInit {
     }
 
     chargerCategorie() {
-        this.produitSer.listerCategories().subscribe((categories) => {
-            (this.categories = categories._embedded.categories),
-                categories._embedded.categories.forEach((categorie) =>
-                    this.nomCat.push(categorie.nomCat)
-                );
-        });
+        // this.produitSer.listerCategories().subscribe(
+        // (categories) => {
+        // (this.categories = categories._embedded.categories),
+        // categories._embedded.categories.forEach((categorie) =>
+        //this.nomCat.push(categorie.nomCat)
+        //   );
+        // });
     }
 }

@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { isEmpty, Subscription } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,9 +9,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { Produit } from 'src/app/model/produit.model';
-import { ProduitService } from 'src/app/produitservice.service';
+import { ProduitService } from 'src/app/services/produitservice.service';
 import { SelectItem } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { CheckboxModule } from 'primeng/checkbox';
+import { FieldsetModule } from 'primeng/fieldset';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-listproduits',
@@ -25,6 +31,12 @@ import { DialogModule } from 'primeng/dialog';
         DropdownModule,
         ButtonModule,
         DialogModule,
+        TooltipModule,
+        InputNumberModule,
+        FloatLabelModule,
+        CheckboxModule,
+        FieldsetModule,
+        RouterModule,
     ],
     templateUrl: './listproduits.component.html',
     styleUrl: './listproduits.component.scss',
@@ -32,6 +44,9 @@ import { DialogModule } from 'primeng/dialog';
 export class ListproduitsComponent implements OnInit {
     produits: Produit[];
     sortOptions: SelectItem[] = [];
+    message: string = ' ';
+    Listecats: any;
+    Listessscats: any;
     constructor(private produitService: ProduitService) {}
 
     visible: boolean = false;
@@ -45,11 +60,23 @@ export class ListproduitsComponent implements OnInit {
             .listeproduits()
             .subscribe((prods) => (this.produits = prods));
 
+        this.produitService
+            .listeCats()
+            .subscribe((cats) => (this.Listecats = cats));
+        this.produitService
+            .listessCats()
+            .subscribe((ssc) => (this.Listessscats = ssc));
+
         this.sortOptions = [
-            { label: 'prix décroissant', value: '!price' },
-            { label: 'prix croissant', value: 'price' },
-            { label: 'nom A-Z', value: 'nom' },
-            { label: 'nom Z-A', value: 'nom' },
+            { label: 'prix décroissant', value: 'prixdesc' },
+            { label: 'prix croissant', value: 'prixasc' },
+            { label: 'nom A-Z', value: 'nomasc' },
+            { label: 'nom Z-A', value: 'nomdesc' },
         ];
+    }
+
+    orderOption(event: any) {
+        const value = event.value;
+        console.log(value);
     }
 }

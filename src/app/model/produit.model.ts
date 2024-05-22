@@ -2,11 +2,12 @@ import { Categorie } from './categorie.model';
 import { Image } from './image.model';
 
 export class Produit {
-    idProduit!: number;
-    nomProduit!: string;
-    prixProduit!: number;
+    idProd!: number;
+    nomProd!: string;
+    prixProd!: number;
+    descriptionPro!: string;
+    quantite!: number;
     dateCreation!: Date;
     categorie!: Categorie;
-    //image!: Image;
-    //imageStr!: string;
+    images!: Image[];
 }

@@ -1,0 +1,17 @@
+::ng-deep {
+    .myFieldset {
+        .ui-fieldset,
+        .ui-fieldset-content {
+            border: none;
+            background-color: transparent;
+        }
+
+        .ui-fieldset-legend {
+            background-color: transparent;
+            border: none;
+            color: inherit;
+            font-weight: inherit;
+            padding: 0;
+        }
+    }
+}

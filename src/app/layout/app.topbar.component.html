@@ -1,5 +1,5 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
+    <a class="layout-topbar-logo" routerLink="/listprod">
         <img class="ml-2" src="../../assets/final.png" />
         <strong
             class="fadeinright animation-duration-2000 animation-iteration-1 flex align-items-center justify-content-center font-bold px-3 py-3"
@@ -31,11 +31,14 @@
                 layoutService.state.profileSidebarVisible
         }"
     >
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-fw pi-sign-out"></i>
-            <span>
-                <a href="#" (click)="(layoutService)">Quit</a>
-            </span>
-        </button>
+        <!-- mettre le authservice si l'utlisateur est deja  connecté on lui affiche le quitter sinon on lui affiche  se connecter -->
+        <p-button
+            icon="pi pi-sign-out"
+            label="Quitter"
+            [rounded]="true"
+            [text]="true"
+            severity="danger"
+            routerLink="/login"
+        />
     </div>
 </div>
