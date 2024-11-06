@@ -1,0 +1,213 @@
+<div class="card">
+    <p-table
+        [value]="lignesCommande"
+        [globalFilterFields]="[
+            'lignesCommande.produit.nomProd',
+            'lignesCommande.produit.prixProd',
+            'lignesCommande.prixligne'
+        ]"
+        [tableStyle]="{ 'min-width': '30rem' }"
+    >
+        <ng-template pTemplate="header">
+            @if (this.lignesCommande.length >0) {
+            <p-button
+                icon="pi pi-trash"
+                class="mb-3 align-right"
+                [outlined]="true"
+                (click)="viderPanier()"
+                label="Vider le panier"
+                [rounded]="true"
+                severity="danger"
+            />
+            }
+
+            <tr>
+                <th>Nom Produit</th>
+                <th>Prix de base</th>
+                <th>quantité</th>
+                <th>Prix ligne</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-ligne>
+            <tr>
+                <td>{{ ligne.produit.nomProd }}</td>
+                <td>{{ ligne.produit.prixProd }}</td>
+                <td>
+                    <p-button
+                        class="m-3"
+                        label="-"
+                        size="small"
+                        (click)="decrementerQuantite(ligne.produit)"
+                        [rounded]="true"
+                        severity="danger"
+                        [outlined]="true"
+                        [text]="true"
+                    />{{ ligne.quantite
+                    }}<p-button
+                        class="m-3"
+                        label="+"
+                        (click)="incrementerQuantite(ligne.produit)"
+                        size="small"
+                        [rounded]="true"
+                        [outlined]="true"
+                        [text]="true"
+                    />
+                </td>
+                <td>{{ ligne.prixligne | number : ".1-2" }} FCFA</td>
+                <td>
+                    <p-button
+                        [outlined]="true"
+                        icon="pi pi-trash"
+                        severity="danger"
+                        (click)="supprimerProduit(ligne.produit)"
+                    />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    @if (this.lignesCommande.length >0) {
+
+    <div class="m-3 align-right">
+        <p-button
+            severity="success"
+            (click)="showDialog()"
+            [label]="'Commander:' + (this.prix | number : '.1-2')"
+        ></p-button>
+    </div>
+
+    }
+</div>
+
+<p-dialog
+    header="Résumé"
+    [modal]="true"
+    [(visible)]="visible"
+    draggable="false"
+    [style]="{ width: '45rem' }"
+>
+    <ng-template pTemplate="content">
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="email" class="font-semibold w-6rem"
+                >Email livraison</label
+            >
+            <input
+                pInputText
+                id="email"
+                [(ngModel)]="commande.emailRec"
+                class="flex-auto"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !commande.emailRec
+                }"
+            />
+            @if (submitted && !commande.emailRec) {
+            <small class="ng-dirty ng-invalid">Email requis</small>
+            }
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="telephone" class="font-semibold w-6rem"
+                >Téléphone</label
+            >
+            <input
+                pInputText
+                [(ngModel)]="commande.numRec"
+                id="telephone"
+                class="flex-auto"
+                required
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !commande.numRec
+                }"
+            />
+            @if (submitted && !commande.numRec) {
+            <small class="ng-dirty ng-invalid">Numéro requis</small>
+            }
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="adresse" class="font-semibold w-6rem"
+                >Adresse livraison</label
+            >
+            <input
+                pInputText
+                id="adresse"
+                [(ngModel)]="commande.adresseLivraison"
+                required
+                [ngClass]="{
+                    'ng-invalid ng-dirty':
+                        submitted && !commande.adresseLivraison
+                }"
+                class="flex-auto"
+            />
+            @if (submitted && !commande.adresseLivraison) {
+            <small class="ng-dirty ng-invalid">Adresse requise</small>
+            }
+        </div>
+        @if(this.auth.getRole()=="ACHETEUR"){
+        <div>
+            <input
+                id="useUserInfo"
+                type="checkbox"
+                (change)="toggleUseUserInfo($event)"
+            />
+            <label for="useUserInfo">utiliser mes informations</label>
+        </div>
+        }
+
+        <div class="m-3">
+            <label class="text-info-emphasis">Service de livraison</label>
+
+            <p-listbox
+                [options]="listesl"
+                [(ngModel)]="servicel"
+                [filter]="true"
+                (click)="add()"
+                [listStyle]="{ 'max-height': '220px' }"
+                optionLabel="nom"
+            />
+        </div>
+        <p-messages
+            [(value)]="messages"
+            [enableService]="false"
+            [closable]="false"
+        />
+        <p-table
+            [value]="lignesCommande"
+            [globalFilterFields]="[
+                'lignesCommande.produit.nomProd',
+                'lignesCommande.produit.prixProd',
+                'lignesCommande.prixligne'
+            ]"
+            [tableStyle]="{ 'min-width': '30rem' }"
+        >
+            <ng-template pTemplate="body" let-ligne>
+                <tr>
+                    <td>{{ ligne.produit.nomProd }}</td>
+                    <td>{{ ligne.produit.prixProd }}</td>
+                    <td>
+                        {{ ligne.quantite }}
+                    </td>
+                    <td>{{ ligne.prixligne | number : ".1-2" }} FCFA</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button
+            pButton
+            pRipple
+            label="Annuler"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="hideDialog()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Continuer"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="commander()"
+        ></button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,164 @@
+<form action="" #new="ngForm">
+    <div
+        class="flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
+    >
+        <div class="col-12 md:col-6">
+            <div class="card p-fluid">
+                <h5 class="align-items-center">Inscription</h5>
+                <div class="p-formgrid grid">
+                    <div class="field col">
+                        <label for="nom">Nom</label>
+                        <input
+                            pInputText
+                            id="nom"
+                            type="text"
+                            [(ngModel)]="m.nom"
+                            required
+                            [ngModelOptions]="{ standalone: true }"
+                        />
+                    </div>
+                    <div class="field col">
+                        <label for="prenom">Prénom</label>
+                        <input
+                            pInputText
+                            id="prenom"
+                            type="text"
+                            [(ngModel)]="m.prenom"
+                            required
+                            [ngModelOptions]="{ standalone: true }"
+                        />
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+                    <div class="field col">
+                        <label for="email">Email</label>
+                        <input
+                            pInputText
+                            id="email"
+                            [(ngModel)]="m.email"
+                            required
+                            email
+                            [ngModelOptions]="{ standalone: true }"
+                        />
+                    </div>
+                    <div class="field col">
+                        <label for="tel">Numéro de téléphone</label>
+                        <p-inputMask
+                            id="tel"
+                            mask="+(999) 9999-9999"
+                            placeholder="+(999) 9999-9999"
+                            [(ngModel)]="m.telephone"
+                            required
+                            [ngModelOptions]="{ standalone: true }"
+                        >
+                        </p-inputMask>
+                    </div>
+                </div>
+
+                <div class="p-formgrid grid">
+                    <div class="field col">
+                        <label for="pass">Mot de passe</label>
+                        <p-password
+                            id="pass"
+                            weakLabel="Mot de passe faible"
+                            mediumLabel="Mot de passe moyen"
+                            strongLabel="Correct"
+                            promptLabel="Créer un mot de passe"
+                            [toggleMask]="true"
+                            [(ngModel)]="m.password"
+                            #value="ngModel"
+                            required
+                            minlength="8"
+                            [ngModelOptions]="{ standalone: true }"
+                        >
+                            <ng-template pTemplate="footer">
+                                <p-divider />
+                                <p class="mt-2">Suggestions</p>
+                                <ul
+                                    class="pl-2 ml-2 mt-0"
+                                    style="line-height: 1.5"
+                                >
+                                    <li>Au moins une lettre minuscule</li>
+                                    <li>Au moins une lettre majuscule</li>
+                                    <li>Au moins un chiffre</li>
+                                    <li>Au moins un caractère spécial</li>
+                                </ul>
+                            </ng-template>
+                        </p-password>
+                    </div>
+                    <div class="field col">
+                        <label for="confirm"
+                            >Confirmer votre mot de passe</label
+                        >
+                        <p-password
+                            id="confirm"
+                            [feedback]="false"
+                            [toggleMask]="true"
+                            [(ngModel)]="confirmationMotDePasse"
+                            required
+                            [ngModelOptions]="{ standalone: true }"
+                            name="confirmationMotDePasse"
+                        >
+                        </p-password>
+                        <div [hidden]="m.password === confirmationMotDePasse">
+                            Vérification du mot de passe incorrecte
+                        </div>
+                    </div>
+                </div>
+                <strong>Adresse</strong>
+                <div class="p-formgrid grid">
+                    <div class="field col">
+                        <label for="pays">Pays</label>
+                        <input
+                            pInputText
+                            id="pays"
+                            type="text"
+                            [(ngModel)]="m.adresse.pays"
+                            required
+                            [ngModelOptions]="{ standalone: true }"
+                        />
+                    </div>
+                    <div class="field col">
+                        <label for="ville">Ville</label>
+                        <input
+                            pInputText
+                            id="ville"
+                            type="text"
+                            [(ngModel)]="m.adresse.ville"
+                            required
+                            [ngModelOptions]="{ standalone: true }"
+                        />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="emp">Emplacement</label>
+                    <input
+                        pInputText
+                        id="emp"
+                        type="text"
+                        [(ngModel)]="m.adresse.emplacement"
+                        required
+                        [ngModelOptions]="{ standalone: true }"
+                    />
+                </div>
+
+                <div
+                    class="flex align-items-center justify-content-between mb-5 gap-5"
+                >
+                    <p-button
+                        label="Créer votre compte"
+                        [loading]="loading"
+                        [disabled]="!new.form.valid"
+                        (onClick)="save()"
+                    />
+                    <a
+                        routerLink="/login"
+                        class="font-medium no-underline ml-2 text-right cursor-pointer"
+                        style="color: var(--primary-color)"
+                        >Se connecter</a
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

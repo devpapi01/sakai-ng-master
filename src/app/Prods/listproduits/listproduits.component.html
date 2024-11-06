@@ -1,7 +1,13 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <p-dataView [emptyMessage]="message" layout="grid">
+            <p-dataView
+                #dv
+                [value]="produits"
+                [emptyMessage]="message"
+                filterBy="nomProd, "
+                layout="grid"
+            >
                 <ng-template pTemplate="header">
                     <div
                         class="flex flex-column md:flex-row md:justify-content-between gap-2"
@@ -33,7 +39,7 @@
                             [(visible)]="visible"
                             [breakpoints]="{ '960px': '65vw' }"
                             [style]="{ width: '40vw' }"
-                            [position]="center"
+                            position="center"
                             [modal]="true"
                         >
                             <div class="grid p-fluid mt-3">
@@ -44,7 +50,9 @@
                                                 type="number"
                                                 id="prixmi"
                                                 pInputText
-                                                [(ngModel)]="min"
+                                                [(ngModel)]="
+                                                    filtreproduit.minPrix
+                                                "
                                             />
                                             <label for="prixmi">Prix Min</label>
                                         </span>
@@ -55,7 +63,9 @@
                                                 type="number"
                                                 id="prixma"
                                                 pInputText
-                                                [(ngModel)]="max"
+                                                [(ngModel)]="
+                                                    this.filtreproduit.maxPrix
+                                                "
                                             />
                                             <label for="prixma">Prix Max</label>
                                         </span>
@@ -68,7 +78,10 @@
                                                 type="number"
                                                 id="qmi"
                                                 pInputText
-                                                [(ngModel)]="qmin"
+                                                [(ngModel)]="
+                                                    this.filtreproduit
+                                                        .quantiteMin
+                                                "
                                             />
                                             <label for="qmi"
                                                 >Quantité Min</label
@@ -81,7 +94,10 @@
                                                 type="number"
                                                 id="qma"
                                                 pInputText
-                                                [(ngModel)]="qmax"
+                                                [(ngModel)]="
+                                                    this.filtreproduit
+                                                        .quantiteMax
+                                                "
                                             />
                                             <label for="prixma"
                                                 >Quantité Max</label
@@ -89,44 +105,62 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="flex py-2 justify-content-center">
-                                    <p-fieldset
-                                        class="myFieldset"
-                                        [toggleable]="true"
-                                        legend="Les catégories"
-                                    >
-                                        <div class="">
-                                            @for (item of Listecats; track
-                                            $index) {
-                                            <p-checkbox
-                                                class="m-2"
-                                                [(ngModel)]="item.value"
-                                                [binary]="true"
-                                                [label]="item"
-                                                inputId="binary"
-                                            />
-                                            }
-                                        </div>
-                                    </p-fieldset>
+                                <div
+                                    class="flex py-2 w-full max-w-full justify-content-center"
+                                >
+                                    <div class="card w-full max-w-full">
+                                        <h5>Les catégories</h5>
+                                        @for (item of Listecats; track $index) {
+                                        <p-checkbox
+                                            class="m-2"
+                                            [binary]="true"
+                                            [label]="item"
+                                            inputId="binary"
+                                            (click)="addcat(item)"
+                                        />
+                                        }
+                                    </div>
                                 </div>
-                                <div class="flex py-2 justify-content-center">
-                                    <p-fieldset
-                                        class="myFieldset"
-                                        [toggleable]="true"
-                                        legend="Les sous catégories"
-                                    >
-                                        <div class="">
-                                            @for (item of Listessscats; track
-                                            $index) {
-                                            <p-checkbox
-                                                class="m-2"
-                                                [label]="item"
-                                                inputId="binary"
-                                            />
-                                            }
-                                        </div>
-                                    </p-fieldset>
+                                <div
+                                    class="flex py-2 w-full justify-content-center"
+                                >
+                                    <div class="card w-full max-w-full">
+                                        <h5>Les sous catégories</h5>
+
+                                        @for (item of Listessscats; track
+                                        $index) {
+                                        <p-checkbox
+                                            [binary]="true"
+                                            class="m-2"
+                                            [label]="item"
+                                            inputId="binary"
+                                            (click)="addsouscat(item)"
+                                        />
+                                        }
+                                    </div>
                                 </div>
+                                <div
+                                    class="flex w-full py-2 justify-content-center m-3"
+                                >
+                                    <div class="card w-full">
+                                        <h5>Les fournisseurs</h5>
+
+                                        @for (item of ListeFournisseurs; track
+                                        $index) {
+                                        <p-checkbox
+                                            class="m-2"
+                                            [label]="item"
+                                            inputId="binary"
+                                            (click)="addfour(item)"
+                                        />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="flex align-items-center justify-content-center"
+                            >
+                                <p-button label="Filtrer" />
                             </div>
                         </p-dialog>
 
@@ -141,7 +175,7 @@
                         </span>
                     </div>
                 </ng-template>
-                <ng-template let-products pTemplate="gridItem">
+                <ng-template let-produits pTemplate="gridItem">
                     <div class="grid grid-nogutter">
                         @for (product of produits; track $index) {
 
@@ -149,10 +183,24 @@
                             <div class="card m-3 border-1 surface-border">
                                 <div
                                     class="flex flex-wrap gap-2 align-items-center justify-content-between mb-2"
+                                >
+                                    <div class="flex align-items-center">
+                                        <i class="pi pi-tag mr-2"></i>
+                                        <span class="font-semibold">{{
+                                            product.categorie.nom
+                                        }}</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex flex-wrap gap-2 align-items-center justify-content-between mb-2"
                                 ></div>
                                 <div
                                     class="flex flex-column align-items-center text-center mb-3"
                                 >
+                                    <img
+                                        src="../../../assets/briquelait.jpg"
+                                        class="w-9 shadow-2 my-3 mx-0 border-round"
+                                    />
                                     <div class="text-2xl font-bold">
                                         {{ product.nomProd }}
                                     </div>
@@ -160,15 +208,24 @@
                                 <div
                                     class="flex align-items-center justify-content-between"
                                 >
-                                    <span class="text-2xl font-semibold"
-                                        >{{ product.prixProd }}FCFA</span
-                                    >
-                                    <div class="flex align-items-center">
-                                        <i class="pi pi-tag mr-2"></i>
-                                        <span class="font-semibold">{{
-                                            product.quantite
-                                        }}</span>
+                                    <div class="mt-0 text-xl font-semibold">
+                                        {{ product.prixProd }}FCFA
                                     </div>
+                                    <span>
+                                        <p-button
+                                            icon="pi pi-eye"
+                                            [outlined]="true"
+                                            severity="secondary"
+                                        ></p-button>
+                                        @if (this.auth.getRole()==='ACHETEUR' ||
+                                        this.auth.getRole()==='' ) {
+                                        <p-button
+                                            icon="pi pi-shopping-cart"
+                                            styleClass="ml-2"
+                                            (click)="ajouterProduit(product)"
+                                        ></p-button>
+                                        }
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -180,3 +237,7 @@
         </div>
     </div>
 </div>
+@if (this.auth.getRole()==="FOURNISSEUR") {
+<p-button (click)="ajout()" class="fixed" label="+" />
+
+}

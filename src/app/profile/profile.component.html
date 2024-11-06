@@ -1,0 +1,102 @@
+<div class="card">
+    <div class="flex align-items-center justify-content-end">
+        <p-button
+            class="mb-3"
+            icon="pi pi-user-edit"
+            [rounded]="true"
+            pTooltip="Modifier"
+            tooltipPosition="left"
+            (click)="toggleEdit()"
+            [outlined]="true"
+        />
+    </div>
+
+    <div class="card p-fluid">
+        <h5>Profil</h5>
+
+        <div class="p-formgrid grid">
+            <div class="field col">
+                <label for="nom">Nom</label>
+                <input
+                    [(ngModel)]="u.nom"
+                    [disabled]="!isEditable"
+                    pInputText
+                    id="nom"
+                    type="text"
+                />
+            </div>
+            <div class="field col">
+                <label for="prenom">Prenom</label>
+                <input
+                    [(ngModel)]="u.prenom"
+                    [disabled]="!isEditable"
+                    pInputText
+                    id="prenom"
+                    type="text"
+                />
+            </div>
+        </div>
+        <div class="p-formgrid grid">
+            <div class="field col">
+                <label for="email">Email</label>
+                <input
+                    [(ngModel)]="u.email"
+                    pInputText
+                    [disabled]="!isEditable"
+                    id="email"
+                    type="text"
+                />
+            </div>
+            <div class="field col">
+                <label for="num">Numéro de téléphone</label>
+                <p-inputMask
+                    [(ngModel)]="u.telephone"
+                    [disabled]="!isEditable"
+                    mask="(+999) 9999-9999"
+                    placeholder="(+999) 9999-9999"
+                    id="num"
+                />
+            </div>
+        </div>
+        <strong>Adresse</strong>
+        <div class="p-formgrid grid">
+            <div class="field col">
+                <label for="pays">Pays</label>
+                <input
+                    [(ngModel)]="u?.adresse.pays"
+                    [disabled]="!isEditable"
+                    pInputText
+                    id="pays"
+                    type="text"
+                />
+            </div>
+            <div class="field col">
+                <label for="ville">Ville</label>
+                <input
+                    [(ngModel)]="u?.adresse.ville"
+                    [disabled]="!isEditable"
+                    pInputText
+                    id="ville"
+                    type="text"
+                />
+            </div>
+        </div>
+        <div class="field">
+            <label for="em">Emplacement</label>
+            <input
+                [(ngModel)]="u?.adresse.emplacement"
+                [disabled]="!isEditable"
+                pInputText
+                id="em"
+                type="text"
+            />
+        </div>
+        <div class="flex align-items-center justify-content-between mb-5 gap-5">
+            <p-button
+                [disabled]="!isEditable"
+                label="Modifier"
+                (click)="update()"
+            />
+        </div>
+    </div>
+</div>

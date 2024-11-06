@@ -6,6 +6,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ButtonDirective, ButtonModule } from 'primeng/button';
+import { AuthserviceService } from '../services/authservice.service';
 
 @Component({
     selector: 'app-topbar',
@@ -31,5 +32,8 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService) {}
+    constructor(
+        public layoutService: LayoutService,
+        public auth: AuthserviceService
+    ) {}
 }

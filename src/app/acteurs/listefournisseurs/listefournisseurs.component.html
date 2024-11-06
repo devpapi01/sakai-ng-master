@@ -1,0 +1,143 @@
+<div>
+    <div class="card">
+        <p-table
+            #dt1
+            [rows]="5"
+            [globalFilterFields]="['nom', 'adresse.pays', 'description']"
+            [paginator]="true"
+            [tableStyle]="{ 'min-width': '40rem' }"
+            [value]="listefour"
+        >
+            <ng-template pTemplate="caption">
+                <p-iconField iconPosition="left">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="
+                            dt1.filterGlobal($event.target.value, 'contains')
+                        "
+                        placeholder="Recherche"
+                    />
+                </p-iconField>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nom">
+                        Nom
+                        <p-sortIcon field="nom" />
+                    </th>
+                    <th>Description</th>
+                    <th pSortableColumn="pays">Pays</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-service>
+                <tr>
+                    <td>{{ service.nom }}</td>
+
+                    <td>{{ service.description }}</td>
+                    <td>{{ service.adresse.pays }}</td>
+
+                    <td>
+                        <p-button
+                            [outlined]="true"
+                            icon="pi pi-eye"
+                            severity="secondary"
+                        />
+                    </td>
+                    @if (this.auth.getRole()==="ADMIN") {
+                    <td>
+                        <p-button
+                            [outlined]="true"
+                            icon="pi pi-trash"
+                            severity="danger"
+                        />
+                    </td>
+                    }
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">Aucun résultat</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+@if (this.auth.getRole()==="ADMIN") {
+<p-button (click)="showDialog()" class="fixed" label="+" />
+}
+
+<p-dialog
+    header="Nouveau founrisseur"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '75rem' }"
+>
+    <div class="card p-fluid">
+        <div class="p-formgrid grid">
+            <div class="field col">
+                <label htmlFor="name2">Nom</label>
+                <input pInputText id="name2" type="text" />
+            </div>
+            <div class="field col">
+                <label htmlFor="email2">Prénom</label>
+                <input pInputText id="email2" type="text" />
+            </div>
+        </div>
+        <div class="p-formgrid grid">
+            <div class="field col">
+                <label htmlFor="name2">Email</label>
+                <input pInputText id="name2" type="text" />
+            </div>
+            <div class="field col">
+                <label htmlFor="name2">Numéro de téléphone</label>
+                <p-inputMask
+                    mask="(+999) 999-99999"
+                    placeholder="(+999) 999-99999"
+                />
+            </div>
+        </div>
+
+        <div class="field">
+            <label htmlFor="name2">Mot de passe</label>
+            <p-password [feedback]="false" [toggleMask]="true"> </p-password>
+        </div>
+        <strong>Adresse</strong>
+        <div class="p-formgrid grid">
+            <div class="field col">
+                <label htmlFor="name2">Pays</label>
+                <input pInputText id="name2" type="text" />
+            </div>
+            <div class="field col">
+                <label htmlFor="email2">Ville</label>
+                <input pInputText id="email2" type="text" />
+            </div>
+        </div>
+        <div class="field">
+            <label htmlFor="name1">Emplacement</label>
+            <input pInputText id="name1" type="text" />
+        </div>
+        <div class="field">
+            <label for="description">Description</label>
+            <textarea
+                id="description"
+                pInputTextarea
+                required
+                rows="3"
+                cols="20"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button
+            label="Annuler"
+            severity="secondary"
+            (click)="visible = false"
+        />
+        <p-button label="Ajouter" (click)="visible = false" />
+    </div>
+</p-dialog>

@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppLayoutComponent } from './layout/app.layout.component';
+import { produitGuard } from './Guards/produit.guard';
 
 export const Layoutroutes: Routes = [
     {
@@ -48,6 +49,7 @@ export const Layoutroutes: Routes = [
                     import('./profile/profile.component').then(
                         (module) => module.ProfileComponent
                     ),
+                canActivate: [produitGuard],
             },
         ],
     },
@@ -65,13 +67,7 @@ export const Layoutroutes: Routes = [
                 (module) => module.RegisterComponent
             ),
     },
-    {
-        path: 'profil',
-        loadComponent: () =>
-            import('./profile/profile.component').then(
-                (module) => module.ProfileComponent
-            ),
-    },
+
     {
         path: 'verification',
         loadComponent: () =>

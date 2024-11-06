@@ -2,19 +2,19 @@ import { Routes } from '@angular/router';
 
 export default [
     {
+        path: '',
+        redirectTo: 'listprod',
+        pathMatch: 'full',
+    },
+    {
         path: 'listprod',
+        pathMatch: 'full',
         loadComponent: () =>
             import('./listproduits/listproduits.component').then(
                 (module) => module.ListproduitsComponent
             ),
     },
-    {
-        path: 'updateprod/:id',
-        loadComponent: () =>
-            import('./updateprod/updateprod.component').then(
-                (module) => module.UpdateprodComponent
-            ),
-    },
+
     {
         path: 'addprod',
         loadComponent: () =>

@@ -1,0 +1,215 @@
+<div class="card">
+    <p-table
+        #dt1
+        [value]="ListeService"
+        [rows]="5"
+        [globalFilterFields]="['nom', 'adresse.pays', 'description']"
+        [paginator]="true"
+        [tableStyle]="{ 'min-width': '40rem' }"
+    >
+        <ng-template pTemplate="caption">
+            <p-iconField iconPosition="left">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Recherche"
+                />
+            </p-iconField>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nom">
+                    Nom
+                    <p-sortIcon field="nom" />
+                </th>
+                <th>Description</th>
+                <th pSortableColumn="adresse.pays">
+                    Pays <p-sortIcon field="adresse.pays" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-service>
+            <tr>
+                <td>{{ service.nom }}</td>
+                <td>{{ service.description }}</td>
+                <td>{{ service.adresse.pays }}</td>
+                @if (this.auth.getRole()==="ADMIN") {
+                <td>
+                    <p-button
+                        [outlined]="true"
+                        icon="pi pi-trash"
+                        severity="danger"
+                    />
+                </td>
+                }
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">Aucun résultat</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+@if (this.auth.getRole()==="ADMIN") {
+<p-button (click)="showDialog()" class="fixed" label="+" />
+
+}
+<p-dialog
+    header="Nouveau founrisseur"
+    [modal]="true"
+    [(visible)]="visible"
+    draggable="false"
+    [style]="{ width: '75rem' }"
+>
+    <div class="card p-fluid">
+        <div class="p-formgrid grid">
+            <div class="field col form-group">
+                <label htmlFor="name2">Nom</label>
+                <input
+                    class="form-control"
+                    pInputText
+                    id="nom"
+                    [(ngModel)]="newservice.nom"
+                    type="text"
+                    name="name"
+                    #name="ngModel"
+                    required
+                />
+                <div [hidden]="name.valid || name.pristine" class="text-danger">
+                    Le nom requis .
+                </div>
+            </div>
+            <div class="field col">
+                <label htmlFor="pre">Prénom</label>
+                <input
+                    pInputText
+                    id="pre"
+                    [(ngModel)]="newservice.prenom"
+                    type="text"
+                />
+            </div>
+        </div>
+        <div class="p-formgrid grid">
+            <div class="field col">
+                <label htmlFor="email">Email</label>
+                <input
+                    class="form-control"
+                    pInputText
+                    id="email"
+                    [(ngModel)]="newservice.email"
+                    type="text"
+                    name="email"
+                    #email="ngModel"
+                    required
+                />
+                <div
+                    [hidden]="email.valid || email.pristine"
+                    class="text-danger"
+                >
+                    L'email requis.
+                </div>
+            </div>
+            <div class="field col">
+                <label htmlFor="name2">Numéro de téléphone</label>
+                <p-inputMask
+                    [(ngModel)]="newservice.telephone"
+                    mask="(+999) 999-99999"
+                    placeholder="(+999) 999-99999"
+                />
+            </div>
+        </div>
+
+        <div class="field">
+            <label htmlFor="name2">Mot de passe</label>
+            <p-password
+                class="form-control"
+                [feedback]="false"
+                [(ngModel)]="newservice.password"
+                [toggleMask]="true"
+                name="password"
+                #password="ngModel"
+                required
+            >
+            </p-password>
+            <div
+                [hidden]="password.valid || password.pristine"
+                class="text-danger"
+            >
+                L'eamil requis.
+            </div>
+        </div>
+        <strong>Adresse</strong>
+        <div class="p-formgrid grid">
+            <div class="field col">
+                <label htmlFor="pays">Pays</label>
+                <input
+                    class="form-control"
+                    pInputText
+                    [(ngModel)]="newservice.adresse.pays"
+                    id="pays"
+                    type="text"
+                    #pays="ngModel"
+                />
+                <div [hidden]="pays.valid || pays.pristine" class="text-danger">
+                    Pays requis.
+                </div>
+            </div>
+            <div class="field col">
+                <label htmlFor="ville">Ville</label>
+                <input
+                    class="form-control"
+                    pInputText
+                    [(ngModel)]="newservice.adresse.ville"
+                    id="ville"
+                    type="text"
+                    #ville="ngModel"
+                />
+                <div
+                    [hidden]="ville.valid || ville.pristine"
+                    class="text-danger"
+                >
+                    Ville requise.
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label htmlFor="name1">Emplacement</label>
+            <input
+                class="form-control"
+                pInputText
+                [(ngModel)]="newservice.adresse.emplacement"
+                id="name1"
+                type="text"
+                #em="ngModel"
+            />
+            <div [hidden]="em.valid || em.pristine" class="text-danger">
+                Emplacement requis.
+            </div>
+        </div>
+        <div class="field">
+            <label for="description">Description</label>
+            <textarea
+                [(ngModel)]="newservice.description"
+                required=""
+                id="description"
+                pInputTextarea
+                required
+                rows="3"
+                cols="20"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button
+            label="Annuler"
+            severity="secondary"
+            (click)="visible = false"
+        />
+        <p-button label="Ajouter" (click)="save()" />
+    </div>
+</p-dialog>

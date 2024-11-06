@@ -1,0 +1,94 @@
+<div class="card">
+    <p-table
+        #dt1
+        [value]="ListeCats"
+        [rows]="3"
+        [globalFilterFields]="['nom', 'description']"
+        [paginator]="true"
+        [tableStyle]="{ 'min-width': '40rem' }"
+    >
+        <ng-template pTemplate="caption">
+            <p-iconField iconPosition="left">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Recherche"
+                />
+            </p-iconField>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nom">
+                    Nom
+                    <p-sortIcon field="nom" />
+                </th>
+                <th>Description</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cat>
+            <tr>
+                <td>{{ cat.nom }}</td>
+                <td>{{ cat.description }}</td>
+                <td>
+                    <p-button
+                        (click)="showDialog(); getdetail(cat)"
+                        icon="pi pi-eye"
+                    />
+                </td>
+
+                @if (this.auth.getRole()==='ADMIN') {
+                <td>
+                    <p-button
+                        [outlined]="true"
+                        icon="pi pi-trash"
+                        severity="danger"
+                        (click)="deleteCat(cat)"
+                    />
+                </td>
+                }
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">Aucun résultat</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog
+    [draggable]="false"
+    [modal]="true"
+    [(visible)]="visible"
+    header="Détails"
+    [style]="{ width: '25rem' }"
+    class="p-fluid"
+>
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">Nom</label>
+            <input
+                type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="categorie.nom"
+                [disabled]="!disable"
+            />
+        </div>
+        <div class="field">
+            <label for="description">Description</label>
+            <textarea
+                id="description"
+                pInputTextarea
+                [(ngModel)]="categorie.description"
+                [disabled]="!disable"
+                rows="3"
+                cols="20"
+            ></textarea>
+        </div>
+    </ng-template>
+</p-dialog>

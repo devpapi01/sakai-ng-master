@@ -32,13 +32,23 @@
         }"
     >
         <!-- mettre le authservice si l'utlisateur est deja  connecté on lui affiche le quitter sinon on lui affiche  se connecter -->
+        @if (this.auth.getLogged()) {
         <p-button
             icon="pi pi-sign-out"
             label="Quitter"
             [rounded]="true"
             [text]="true"
             severity="danger"
+            (click)="auth.logout()"
+        />
+        } @else {
+        <p-button
+            icon="pi pi-sign-in"
+            label="Se connecter"
+            [rounded]="true"
+            [text]="true"
             routerLink="/login"
         />
+        }
     </div>
 </div>
