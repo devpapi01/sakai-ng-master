@@ -22,7 +22,7 @@
                         <input
                             pInputText
                             id="prenom"
-                            type="text"
+
                             [(ngModel)]="m.prenom"
                             required
                             [ngModelOptions]="{ standalone: true }"
@@ -49,6 +49,7 @@
                             placeholder="+(999) 9999-9999"
                             [(ngModel)]="m.telephone"
                             required
+
                             [ngModelOptions]="{ standalone: true }"
                         >
                         </p-inputMask>
@@ -100,7 +101,7 @@
                             name="confirmationMotDePasse"
                         >
                         </p-password>
-                        <div [hidden]="m.password === confirmationMotDePasse">
+                        <div [hidden]="m.password === confirmationMotDePasse" >
                             Vérification du mot de passe incorrecte
                         </div>
                     </div>
@@ -113,6 +114,7 @@
                             pInputText
                             id="pays"
                             type="text"
+
                             [(ngModel)]="m.adresse.pays"
                             required
                             [ngModelOptions]="{ standalone: true }"
