@@ -4,7 +4,7 @@
     <div class="flex flex-column align-items-center justify-content-center">
         <div
             style="
-                border-radius: 56px;
+                border-radius: 46px;
                 padding: 0.3rem;
                 background: linear-gradient(
                     180deg,
@@ -14,7 +14,7 @@
             "
         >
             <div
-                class="w-full surface-card py-8 px-5 sm:px-8"
+                class="w-full surface-card py-7 px-5 sm:px-7"
                 style="border-radius: 53px"
             >
                 <div class="text-center mb-5">
@@ -43,6 +43,9 @@
                         placeholder="Email"
                         [(ngModel)]="utilisateur.email"
                         pInputText
+                        email
+                        required
+                        #emailField="ngModel"
                         class="w-full md:w-30rem mb-5 form-control"
                         style="padding: 1rem"
                     />
@@ -57,7 +60,7 @@
                         class="form-control"
                         name="password"
                         [(ngModel)]="utilisateur.password"
-                        placeholder="mot de passe"
+                        placeholder="Mot de passe"
                         [toggleMask]="true"
                         styleClass="mb-5"
                         [feedback]="false"
@@ -84,11 +87,12 @@
                         (click)="onLoggedin()"
                         label="Se connecter"
                         class="w-full p-3 text-xl"
+                        [disabled]="!emailField.errors?.['email'] || !utilisateur.password"
                     ></button>
 
                     <a
                         routerLink="/register"
-                        class="font-medium no-underline ml-2 text-right cursor-pointer"
+                        class="font-medium ml-2"
                         style="color: var(--primary-color)"
                         >Créer un compte</a
                     >

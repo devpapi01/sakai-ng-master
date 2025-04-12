@@ -54,6 +54,7 @@ export class RegisterComponent {
     }
 
     save() {
+        console.log(this.m.telephone);
         this.marchand.createMarchand(this.m).subscribe({
             next: (res) => {
                 this.auth.setRegistreduser(this.m);

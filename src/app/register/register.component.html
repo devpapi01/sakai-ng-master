@@ -12,9 +12,10 @@
                             pInputText
                             id="nom"
                             type="text"
+                            name="nom"
+                            #nomField="ngModel"
                             [(ngModel)]="m.nom"
                             required
-                            [ngModelOptions]="{ standalone: true }"
                         />
                     </div>
                     <div class="field col">
@@ -22,10 +23,10 @@
                         <input
                             pInputText
                             id="prenom"
-
+                            name="prenom"
                             [(ngModel)]="m.prenom"
                             required
-                            [ngModelOptions]="{ standalone: true }"
+                            #prenomField="ngModel"
                         />
                     </div>
                 </div>
@@ -35,12 +36,23 @@
                         <input
                             pInputText
                             id="email"
+                            name="email"
                             [(ngModel)]="m.email"
                             required
                             email
-                            [ngModelOptions]="{ standalone: true }"
+                            #emailField="ngModel"
                         />
+                        @if (emailField.invalid && emailField.touched) {
+                        <div class="text-red-500">
+                            @if (emailField.errors?.['required']) {
+                            <div>L'email est requis.</div>
+                            } @if (emailField.errors?.['email']) {
+                            <div>Format d'email invalide.</div>
+                            }
+                        </div>
+                        }
                     </div>
+
                     <div class="field col">
                         <label for="tel">Numéro de téléphone</label>
                         <p-inputMask
@@ -49,8 +61,8 @@
                             placeholder="+(999) 9999-9999"
                             [(ngModel)]="m.telephone"
                             required
-
-                            [ngModelOptions]="{ standalone: true }"
+                            name="telephone"
+                            #telephoneField="ngModel"
                         >
                         </p-inputMask>
                     </div>
@@ -61,6 +73,7 @@
                         <label for="pass">Mot de passe</label>
                         <p-password
                             id="pass"
+                            name="password"
                             weakLabel="Mot de passe faible"
                             mediumLabel="Mot de passe moyen"
                             strongLabel="Correct"
@@ -70,7 +83,6 @@
                             #value="ngModel"
                             required
                             minlength="8"
-                            [ngModelOptions]="{ standalone: true }"
                         >
                             <ng-template pTemplate="footer">
                                 <p-divider />
@@ -97,11 +109,13 @@
                             [toggleMask]="true"
                             [(ngModel)]="confirmationMotDePasse"
                             required
-                            [ngModelOptions]="{ standalone: true }"
                             name="confirmationMotDePasse"
                         >
                         </p-password>
-                        <div [hidden]="m.password === confirmationMotDePasse" >
+                        <div
+                            class="text-red-500"
+                            [hidden]="m.password === confirmationMotDePasse"
+                        >
                             Vérification du mot de passe incorrecte
                         </div>
                     </div>
@@ -114,10 +128,10 @@
                             pInputText
                             id="pays"
                             type="text"
-
                             [(ngModel)]="m.adresse.pays"
                             required
-                            [ngModelOptions]="{ standalone: true }"
+                            name="pays"
+                            #paysField="ngModel"
                         />
                     </div>
                     <div class="field col">
@@ -128,7 +142,8 @@
                             type="text"
                             [(ngModel)]="m.adresse.ville"
                             required
-                            [ngModelOptions]="{ standalone: true }"
+                            name="ville"
+                            #villeField="ngModel"
                         />
                     </div>
                 </div>
@@ -140,7 +155,8 @@
                         type="text"
                         [(ngModel)]="m.adresse.emplacement"
                         required
-                        [ngModelOptions]="{ standalone: true }"
+                        name="emplacement"
+                        #emplacementField="ngModel"
                     />
                 </div>
 
