@@ -57,8 +57,8 @@
                         <label for="tel">Numéro de téléphone</label>
                         <p-inputMask
                             id="tel"
-                            mask="+(999) 9999-9999"
-                            placeholder="+(999) 9999-9999"
+                            mask="+(999)9999-9999"
+                            placeholder="+(999)9999-9999"
                             [(ngModel)]="m.telephone"
                             required
                             name="telephone"
@@ -166,7 +166,10 @@
                     <p-button
                         label="Créer votre compte"
                         [loading]="loading"
-                        [disabled]="!new.form.valid"
+                        [disabled]="
+                            !new.form.valid ||
+                            m.password !== confirmationMotDePasse
+                        "
                         (onClick)="save()"
                     />
                     <a
